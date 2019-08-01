@@ -750,6 +750,16 @@ KBUILD_CFLAGS += -mcpu=cortex-a76.cortex-a55
 KBUILD_AFLAGS += -mcpu=cortex-a76.cortex-a55
 endif
 
+ifeq ($(CONFIG_LLVM_POLLY), y)
+KBUILD_CFLAGS	+= -mllvm -polly \
+		   -mllvm -polly-run-inliner \
+		   -mllvm -polly-opt-fusion=max \
+		   -mllvm -polly-ast-use-context \
+		   -mllvm -polly-detect-keep-going \
+		   -mllvm -polly-vectorizer=stripmine \
+		   -mllvm -polly-invariant-load-hoisting
+endif
+
 # Tell gcc to never replace conditional load with a non-conditional one
 ifdef CONFIG_CC_IS_GCC
 # gcc-10 renamed --param=allow-store-data-races=0 to

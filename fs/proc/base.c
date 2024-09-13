@@ -1769,7 +1769,7 @@ static int do_proc_readlink(struct path *path, char __user *buffer, int buflen)
 #ifdef CONFIG_KSU_SUSFS_SUS_MAPS
 	if (!susfs_is_sus_maps_list_empty()) {
 		mm = current->mm;
-		down_read(&mm->mmap_sem);
+		mmap_read_lock(mm);
 		for (vma = mm->mmap; vma; vma = vma->vm_next) {
 			if (vma->vm_file) {
 				vma_file = vma->vm_file;
@@ -1782,7 +1782,7 @@ static int do_proc_readlink(struct path *path, char __user *buffer, int buflen)
 				}
 			}
 		}
-		up_read(&mm->mmap_sem);
+		mmap_read_unlock(mm);
 	}
 #endif
 
